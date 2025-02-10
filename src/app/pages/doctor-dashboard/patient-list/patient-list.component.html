@@ -1,6 +1,6 @@
 <h2>Patients</h2>
-<ul>
-  <li *ngFor="let patient of patients">
+<div class="patient-list">
+  <div class="patient-item" *ngFor="let patient of patients">
     <a [routerLink]="['/doctor/patient', patient.id]">{{ patient.name }} ({{ patient.age }} years)</a>
-  </li>
-</ul>
+  </div>
+</div>

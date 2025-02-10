@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-patient-details',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './patient-details.component.html',
   styleUrl: './patient-details.component.css'
 })

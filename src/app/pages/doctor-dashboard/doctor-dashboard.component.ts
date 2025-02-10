@@ -7,7 +7,7 @@ import { PatientListComponent } from "./patient-list/patient-list.component";
 
 @Component({
   selector: 'app-doctor-dashboard',
-  imports: [CommonModule, NavbarComponent, RouterOutlet, PatientListComponent],
+  imports: [CommonModule, NavbarComponent, RouterOutlet],
   templateUrl: './doctor-dashboard.component.html',
   styleUrl: './doctor-dashboard.component.css'
 })

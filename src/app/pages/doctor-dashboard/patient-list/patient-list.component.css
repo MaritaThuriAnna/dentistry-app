@@ -1,7 +1,7 @@
 .patient-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
   }
   
   .patient-item {
@@ -9,12 +9,13 @@
     justify-content: space-between;
     align-items: center;
     background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
   }
   
-  .patient-item a {
-    color: #007BFF;
+  .patient-item:hover {
+    transform: scale(1.02);
   }
   

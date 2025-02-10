@@ -7,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './xray-upload.component.css'
 })
 export class XrayUploadComponent {
+uploadXray($event: Event) {
+throw new Error('Method not implemented.');
+}
 
 }
