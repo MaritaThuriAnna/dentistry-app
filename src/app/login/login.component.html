@@ -1,0 +1,32 @@
+<!-- <div class="login-container">
+    <h2>Login to Dental Office</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" formControlName="email" placeholder="Email" required />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" formControlName="password" placeholder="Password" required />
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <div *ngIf="loginForm.invalid && loginForm.touched" class="error-message">
+      Please enter valid credentials.
+    </div>
+  </div>
+  -->
+
+  <div class="login-container">
+    <h2>Login</h2>
+    <form (submit)="handleLogin()">
+      <label>Email:</label>
+      <input type="email"  />
+  
+      <label>Password:</label>
+      <input type="password" />
+  
+      <button type="submit">Login</button>
+    </form>
+  </div>
+  
