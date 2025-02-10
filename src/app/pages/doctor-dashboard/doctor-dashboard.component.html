@@ -1,5 +1,5 @@
-<div class="dashboard">
-    <h1>Welcome to Doctor's Dashboard</h1>
-    <p>Manage your appointments and patient records here.</p>
-  </div>
-  
+<app-navbar></app-navbar> <!-- Navigation Bar -->
+<div class="dashboard-container">
+  <app-patient-list></app-patient-list>
+  <router-outlet></router-outlet> <!-- Loads the selected component -->
+</div>
