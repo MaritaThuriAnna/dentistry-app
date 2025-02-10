@@ -1,0 +1,11 @@
+.patient-details {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .patient-details p {
+    margin: 10px 0;
+  }
+  

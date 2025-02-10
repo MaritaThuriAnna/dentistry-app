@@ -7,19 +7,19 @@ import { AuthGuard } from '../AuthGuard';
 import { NgModule } from '@angular/core';
 import { AppointmentComponent } from './pages/doctor-dashboard/appointment/appointment.component';
 import { PatientDetailsComponent } from './pages/doctor-dashboard/patient-list/patient-details/patient-details.component';
+import { PatientListComponent } from './pages/doctor-dashboard/patient-list/patient-list.component';
 import { XrayUploadComponent } from './pages/doctor-dashboard/xray-upload/xray-upload.component';
 
 export const routes: Routes = [
-  {
-    path: 'doctor', component: DoctorDashboardComponent, children: [
-      { path: 'patient', component: PatientDashboardComponent, canActivate: [AuthGuard], data: { role: 'PATIENT' } },
-      { path: 'patient/:id', component: PatientDetailsComponent },
-      { path: 'appointments', component: AppointmentComponent },
-      { path: 'xrays', component: XrayUploadComponent },
-      { path: 'patient', component: PatientDashboardComponent, canActivate: [AuthGuard], data: { role: 'PATIENT' } },
-
-    ]
-  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'doctor', component: DoctorDashboardComponent, children: [
+    { path: 'patients', component: PatientListComponent },
+    { path: 'patient/:id', component: PatientDetailsComponent },
+    { path: 'appointments', component: AppointmentComponent },
+    { path: 'xrays', component: XrayUploadComponent },
+  ] 
+},  { path: 'patient', component: PatientDashboardComponent, canActivate: [AuthGuard], data: { role: 'PATIENT' } },
 ];
 
 @NgModule({
