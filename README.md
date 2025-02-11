@@ -1,59 +1,39 @@
-# Frontend
+# Dentist Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
+## Overview
+**Live Deployment:** [Dentist Dashboard on Vercel](https://dentistry-app-one.vercel.app/)
 
-## Development server
+The **Dentist Dashboard** is a web-based platform designed to help dentists manage their patients, appointments, and medical records efficiently. This project is developed as part of my **bachelor's thesis** and focuses on integrating a **machine learning algorithm for caries detection**, providing an AI-powered diagnostic tool for dental professionals.
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
-```
+- **User Authentication:** Secure login system for doctors and patients.
+- **Patient Management:** Store and manage patient information.
+- **Appointment Scheduling:** Book and manage appointments.
+- **X-Ray Upload & Analysis:** Upload patient X-ray images.
+- **Caries Detection (Machine Learning):** AI-based detection of dental caries from X-ray images.
+- **Patient Portal:** Patients can log in to access their medical records, view past diagnoses, and check upcoming appointments.
+- **Responsive Design:** Works seamlessly on desktops and mobile devices.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Tech Stack
 
-## Code scaffolding
+- **Frontend:** Angular
+- **Backend:** Java Spring Boot
+- **Database:** MySQL / Firebase
+- **Machine Learning:** TensorFlow / PyTorch for caries detection
+- **Styling:** CSS (Poppins font, custom styles)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### How It Works:
 
-```bash
-ng generate component component-name
-```
+1. Dentist **uploads an X-ray image**.
+2. The image is **processed and analyzed** by the AI model.
+3. **Predictions are displayed** with a confidence score.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Patient Portal
 
-```bash
-ng generate --help
-```
+The **patient dashboard** allows users to:
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **View their medical records** including past diagnoses and treatments.
+- **Check upcoming appointments** with their assigned dentist.
+- **Receive AI-assisted caries detection results** and follow-up recommendations.
+- **Communicate with their dentist** via a secure messaging system (future feature).
