@@ -1,6 +1,13 @@
 import { NgFor } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
+interface Patient {
+  id: number;
+  name: string;
+  age: number;
+}
 
 @Component({
   selector: 'app-patient-list',
@@ -9,8 +16,14 @@ import { RouterLink } from '@angular/router';
   styleUrl: './patient-list.component.css'
 })
 export class PatientListComponent {
-  patients = [
-    { id: 1, name: 'John Doe', age: 30 },
-    { id: 2, name: 'Jane Smith', age: 25 }
-  ];
+  patients: Patient[] = [];
+
+  constructor(private http: HttpClient) { }
+
+  ngOnInit() {
+    this.http.get<Patient[]>('patient-data.json').subscribe((data) => {
+      this.patients = data;
+    });
+    console.log(this.patients)
+  }
 }
