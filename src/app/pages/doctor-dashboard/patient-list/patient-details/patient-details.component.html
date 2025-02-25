@@ -1,0 +1,56 @@
+<div *ngFor="let patient of patient" class="patient-details">
+    <h2>Patient Details: {{ patient.name }}</h2>
+    
+    <section class="patient-info">
+      <h3>Patient Overview</h3>
+      <p><strong>Name:</strong> {{ patient.name }}</p>
+      <p><strong>Age:</strong> {{ patient.age }}</p>
+      <p><strong>Gender:</strong> {{ patient.gender }}</p>
+      <p><strong>Contact:</strong> {{ patient.contact.email }}</p>
+      <p><strong>Phone:</strong> {{ patient.contact.phone }}</p>
+      <p><strong>Address:</strong> {{ patient.address }}</p>
+    </section>
+  
+    <section class="medical-history">
+      <h3>Medical History</h3>
+      <p><strong>Allergies:</strong> {{ patient.medicalHistory.allergies }}</p>
+      <p><strong>Conditions:</strong> {{ patient.medicalHistory.conditions.join(', ') }}</p>
+      <p><strong>Previous Treatments:</strong></p>
+      <ul>
+        <li *ngFor="let treatment of patient.medicalHistory.previousTreatments">
+          {{ treatment }}
+        </li>
+      </ul>
+    </section>
+  
+    <section class="appointments">
+      <h3>Appointments</h3>
+      <ul>
+        <li *ngFor="let appointment of patient.appointments">
+          🗓️ {{ appointment.date }} - {{ appointment.type }} ({{ appointment.status }})
+        </li>
+      </ul>
+    </section>
+  
+    <section class="xray-records">
+      <h3>X-Ray Records</h3>
+      <div *ngFor="let record of patient.xrayRecords">
+        <img [src]="record.image" alt="X-Ray" class="xray-img"/>
+        <p><strong>Analysis:</strong> {{ record.analysis }}</p>
+      </div>
+      <br>
+      <a routerLink="/doctor/xrays" class="btn">Upload X-rays</a>
+    </section>
+  
+    <section class="doctor-notes">
+      <h3>Doctor Notes</h3>
+      <textarea rows="4" [(ngModel)]="patient.doctorNotes" placeholder="Enter diagnosis notes..."></textarea>
+    </section>
+  
+    <div class="actions">
+      <button routerLink="/doctor/patients">Back to Patients</button>
+      <button class="edit-btn">Edit Patient</button>
+      <button class="schedule-btn">Schedule Appointment</button>
+    </div>
+  </div>
+  
