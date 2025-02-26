@@ -1,7 +1,7 @@
 import { NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 interface Patient {
   id: number;
@@ -18,12 +18,15 @@ interface Patient {
 export class PatientListComponent {
   patients: Patient[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
-    this.http.get<Patient[]>('patient-data.json').subscribe((data) => {
+    this.http.get<Patient[]>('http://localhost:8082/User/ReadAll').subscribe((data) => {
       this.patients = data;
     });
-    console.log(this.patients)
+  }
+
+  selectPatient(patientId: string) {
+    this.router.navigate(['/doctor/xrays'], { queryParams: { patientId } });
   }
 }
