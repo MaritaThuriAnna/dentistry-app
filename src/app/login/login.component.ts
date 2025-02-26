@@ -14,7 +14,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent {
 
-  loginForm: FormGroup; 
+  loginForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.formBuilder.group({
@@ -28,18 +28,30 @@ export class LoginComponent {
       return;
     }
 
-
-    const { email, password } = this.loginForm.value; 
+    const email = this.loginForm.get('email')!.value;
+    const password = this.loginForm.get('password')!.value;
 
     this.authService.loginUser(email, password).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
         localStorage.setItem('authToken', response.body.token || '');
 
-        if (response.body.role === 'DENTIST') {
-          this.router.navigate(['/doctor/homme']);
-        } else if (response.body.role === 'PATIENT') {
-          this.router.navigate(['/patient']);
+        
+
+        if (response.status === 200) {
+          this.authService.fetchUserByEmail(email).subscribe({
+            next: (user) => {
+              console.log('User details:', user);
+              if (response.body.role === 'DENTIST') {
+                this.router.navigate(['/doctor/home']);
+              } else if (response.body.role === 'PATIENT') {
+                this.router.navigate(['/patient']);
+              }
+            },
+            error: (err) => {
+              console.error('Error fetching user details:', err);
+            }
+          });
         }
       },
       error: (err) => {

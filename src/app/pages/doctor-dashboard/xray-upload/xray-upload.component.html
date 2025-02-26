@@ -1,9 +1,20 @@
-<div class="upload-container">
-    <h2>Upload X-ray Image</h2>
-  
-    <input type="file" (change)="onFileSelected($event)" />
-    <button (click)="uploadFile()">Upload</button>
-  
-    <p *ngIf="uploadMessage">{{ uploadMessage }}</p>
-  </div>
-  
+<h2>Upload X-ray Image</h2>
+<form>
+  <label for="patient">Select Patient:</label>
+  <select [(ngModel)]="patientId" name="patient">
+    <option *ngFor="let patient of patients" [value]="patient.userId">
+      {{ patient.forname }} {{ patient.surname }}
+    </option>
+  </select>
+
+  <label for="file">Choose File:</label>
+  <input type="file" (change)="onFileSelected($event)" />
+
+  <button type="button" (click)="uploadFile()" [disabled]="isUploading">
+    Upload
+  </button>
+
+  <div *ngIf="isUploading" class="loading-spinner"></div>
+
+  <p>{{ uploadMessage }}</p>
+</form>
