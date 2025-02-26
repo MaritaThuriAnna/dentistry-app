@@ -2,8 +2,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,55 +14,39 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  // loginForm: FormGroup;
+  loginForm: FormGroup; 
 
-  // constructor(private formBuilder: FormBuilder, private authService: AuthService) {
-  //   this.loginForm = this.formBuilder.group({
-  //     email: ['', Validators.required],
-  //     password: ['', Validators.required]
-  //   });
-  // }
-
-  // onSubmit(): void {
-  //   const email = this.loginForm.get('email')!.value;
-  //   const password = this.loginForm.get('password')!.value;
-  
-  //   this.authService.loginUser(email, password).subscribe({
-  //     next: (response) => {
-  //       console.log('Login successful:', response);
-  //       const role = response.body; 
-  //       if (role === 'DOCTOR') {
-  //         window.location.href = '/doctor';
-  //       } else if (role === 'PATIENT') {
-  //         window.location.href = '/patient';
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error('Error:', err);
-  //       if (err.status === 401) {
-  //         alert('Invalid login credentials');
-  //       } else if (err.status === 0) {
-  //         alert('Cannot connect to the server. Please try again later.');
-  //       }
-  //     },
-  //   });
-  // }
-  
-  
-
-  // logout() {
-  //   localStorage.removeItem('authToken');
-  //   // redirect to login page
-  //   window.location.href = '/login';
-  // }
-
-  email: string = '';
-  password: string = '';
-
-  constructor(private router: Router) {}
-
-  handleLogin() {
-    // Placeholder for authentication logic
-    this.router.navigate(['/doctor']);
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
   }
+
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+
+    const { email, password } = this.loginForm.value; 
+
+    this.authService.loginUser(email, password).subscribe({
+      next: (response) => {
+        console.log('Login successful:', response);
+        localStorage.setItem('authToken', response.body.token || '');
+
+        if (response.body.role === 'DENTIST') {
+          this.router.navigate(['/doctor/homme']);
+        } else if (response.body.role === 'PATIENT') {
+          this.router.navigate(['/patient']);
+        }
+      },
+      error: (err) => {
+        console.error('Login failed:', err);
+        alert('Invalid credentials or server issue.');
+      }
+    });
+  }
+
 }
