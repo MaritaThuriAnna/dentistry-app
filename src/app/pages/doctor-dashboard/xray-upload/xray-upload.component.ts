@@ -1,32 +1,45 @@
 import { Component } from '@angular/core';
 import { ImageService } from '../../../services/image.service';
+import { ImageUploadService } from '../../../services/image-upload.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-xray-upload',
-  imports: [],
+  imports: [NgIf],
   templateUrl: './xray-upload.component.html',
   styleUrl: './xray-upload.component.css'
 })
 export class XrayUploadComponent {
-  constructor(private imageService: ImageService) {}
+  selectedFile: File | null = null;
+  uploadMessage = '';
 
-  uploadXray(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      const patientId = '550e8400-e29b-41d4-a716-446655440000';  
-      const uploadedBy = '660e8400-e29b-41d4-a716-446655440000';
+  constructor(private imageUploadService: ImageUploadService) { }
 
-      this.imageService.uploadXray(file, patientId, uploadedBy).subscribe({
-        next: (response) => {
-          console.log('X-ray uploaded:', response);
-          alert('X-ray uploaded successfully!');
-        },
-        error: (err) => {
-          console.error('Upload error:', err);
-          alert('Error uploading X-ray.');
-        }
-      });
+  onFileSelected(event: any) {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
     }
+  }
+
+  uploadFile() {
+    if (!this.selectedFile) {
+      this.uploadMessage = 'Please select a file first.';
+      return;
+    }
+
+    const patientId = '0902be25-d687-440f-813b-d10ceef13d44';
+    const uploadedBy = '153fddaa-d8c8-4d47-bb57-5535fa604a57';
+
+    this.imageUploadService.uploadImage(this.selectedFile, patientId, uploadedBy)
+    .subscribe({
+      next: (response) => {
+        this.uploadMessage = `Upload successful!`;
+        // console.log('File Uploaded:', response.fileUrl);
+      },
+      error: (err) => {
+        console.error('Upload Error:', err);
+        // this.uploadMessage = `Upload failed: ${err.message}`;
+      }
+    });
   }
 }

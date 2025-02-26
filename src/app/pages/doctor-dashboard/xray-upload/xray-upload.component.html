@@ -1,2 +1,9 @@
-<h2>Upload X-ray</h2>
-<input type="file" (change)="uploadXray($event)" />
+<div class="upload-container">
+    <h2>Upload X-ray Image</h2>
+  
+    <input type="file" (change)="onFileSelected($event)" />
+    <button (click)="uploadFile()">Upload</button>
+  
+    <p *ngIf="uploadMessage">{{ uploadMessage }}</p>
+  </div>
+  
