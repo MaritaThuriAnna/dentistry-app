@@ -1,2 +1,41 @@
-<h2>Appointments</h2>
-<p>Appointment scheduling functionality will go here.</p>
+<h2 class="section-title">Schedule an Appointment</h2>
+<h2 class="section-title">Scheduled Appointments</h2>
+
+<div class="appointment-container">
+    <!-- Appointment Form -->
+    <div class="appointment-form">
+        <label for="patient">Select Patient:</label>
+        <select id="patient" [(ngModel)]="selectedPatientId">
+            <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.name }}</option>
+        </select>
+
+        <label for="date">Select Date:</label>
+        <mat-form-field appearance="outline" class="custom-datepicker">
+            <mat-label></mat-label>
+            <input matInput [matDatepicker]="picker1" [(ngModel)]="appointmentDate"
+                   autocomplete="off" placeholder="Choose a date">
+            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1 color="primary"></mat-datepicker>
+          </mat-form-field>
+          
+        
+    
+
+        <label for="reason">Appointment Reason:</label>
+        <textarea id="reason" [(ngModel)]="appointmentReason" placeholder="Enter reason for visit..."></textarea>
+
+        <button (click)="scheduleAppointment()">Schedule Appointment</button>
+    </div>
+
+    <!-- Scheduled Appointments -->
+    <div class="appointment-list">
+        <h3>Scheduled Appointments</h3>
+        <ul>
+            <li *ngFor="let appointment of appointments">
+                🗓️ <strong>{{ appointment.date }}</strong> - <strong>{{ appointment.patientName }}</strong> (Doctor ID:
+                {{ appointment.doctorId }}) <br>
+                🏥 Reason: {{ appointment.reason }}
+            </li>
+        </ul>
+    </div>
+</div>

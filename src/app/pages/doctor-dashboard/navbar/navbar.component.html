@@ -1,16 +1,14 @@
-<!-- <nav>
-    <a routerLink="/doctor" routerLinkActive="active">Home</a>
-    <a routerLink="/doctor/patients" routerLinkActive="active">Patients</a>
-    <a routerLink="/doctor/appointments" routerLinkActive="active">Appointments</a>
-    <a routerLink="/doctor/xrays" routerLinkActive="active">X-Ray Upload</a>
-</nav> -->
-<nav>
-  <div class="logo">Dentist Dashboard</div>
-  <div class="hamburger" (click)="toggleMenu()">&#9776;</div>
-  <div class="nav-links" [ngClass]="{'nav-active': menuOpen}">
-    <a routerLink="/doctor/home" routerLinkActive="active">Home</a>
-    <a routerLink="/doctor/patients" routerLinkActive="active">Patients</a>
-    <a routerLink="/doctor/appointments" routerLinkActive="active">Appointments</a>
-    <a routerLink="/doctor/xrays" routerLinkActive="active">X-Ray Upload</a>
+<nav class="navbar">
+  <div class="navbar-brand">
+    <a class="logo">Dentist Dashboard</a>
   </div>
+  <div class="hamburger" (click)="toggleMenu()">&#9776;</div>
+  <ul class="nav-links" [ngClass]="{'nav-active': menuOpen}">
+    <li><a routerLink="/">Home</a></li> 
+    <li *ngIf="!isLoggedIn"><a routerLink="/login">Login</a></li>  
+    <li *ngIf="isLoggedIn"><a routerLink="/doctor/patients">Patients</a></li>
+    <li *ngIf="isLoggedIn"><a routerLink="/doctor/appointments">Appointments</a></li>
+    <li *ngIf="isLoggedIn"><a routerLink="/doctor/xrays">X-Ray Upload</a></li>
+    <li *ngIf="isLoggedIn"><a (click)="logout()">Logout</a></li>
+  </ul>  
 </nav>

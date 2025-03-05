@@ -1,6 +1,18 @@
 import { NgFor } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { UserCrudService } from '../../../services/user_crud.service';
+
+interface Patient {
+  userId: string;
+  surname: string;
+  forname: string;
+  email: string;
+  telNr: string;
+  role: string;
+  profilePictureUrl: string;
+}
 
 @Component({
   selector: 'app-patient-list',
@@ -9,8 +21,17 @@ import { RouterLink } from '@angular/router';
   styleUrl: './patient-list.component.css'
 })
 export class PatientListComponent {
-  patients = [
-    { id: 1, name: 'John Doe', age: 30 },
-    { id: 2, name: 'Jane Smith', age: 25 }
-  ];
+  patients: Patient[] = [];
+
+  constructor(private userService: UserCrudService, private router: Router) {}
+
+  ngOnInit() {
+    this.userService.getAllUsers().subscribe((data) => {
+      this.patients = data.filter(user => user.role === 'PATIENT'); // ✅ Filter only patients
+    });
+  }
+
+  selectPatient(patientId: string) {
+    this.router.navigate(['/doctor/patient', patientId]);
+  }
 }
