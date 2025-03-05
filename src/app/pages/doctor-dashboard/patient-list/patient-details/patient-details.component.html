@@ -49,6 +49,6 @@
   <div class="actions">
     <button routerLink="/doctor/patients">Back to Patients</button>
     <button class="edit-btn">Edit Patient</button>
-    <button class="schedule-btn">Schedule Appointment</button>
+    <button class="schedule-btn" routerLink="/doctor/appointments"  [queryParams]="{patientId: patient.userId, schedule: 'true'}">Schedule Appointment</button>
   </div>
 </div>

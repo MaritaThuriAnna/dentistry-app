@@ -1,41 +1,51 @@
-<h2 class="section-title">Schedule an Appointment</h2>
-<h2 class="section-title">Scheduled Appointments</h2>
+<h2 class="section-title"> Appointments </h2>
 
-<div class="appointment-container">
+<div class="appointment-container" *ngIf="isScheduling">
+
     <!-- Appointment Form -->
     <div class="appointment-form">
-        <label for="patient">Select Patient:</label>
-        <select id="patient" [(ngModel)]="selectedPatientId">
-            <option *ngFor="let patient of patients" [value]="patient.userId">{{patient.forname}} {{ patient.surname }} </option>
-        </select>
+        <h3 class="section-subtitle">Schedule an Appointment</h3>
+        <!-- <label for="patient">Select Patient:</label>
 
+        <select id="patient" [(ngModel)]="selectedPatientId" *ngIf="!selectedPatientId">
+            <option *ngFor="let patient of patients" [value]="patient.userId">{{patient.forname}} {{ patient.surname }}
+            </option>
+        </select> -->
+
+        <p *ngIf="selectedPatientId">
+            <strong>Selected Patient:</strong> {{ selectedPatientName }}
+        </p>
+
+    
         <label for="date">Select Date:</label>
+
         <mat-form-field appearance="outline" class="custom-datepicker">
             <mat-label></mat-label>
-            <input matInput [matDatepicker]="picker1" [(ngModel)]="appointmentDate"
-                   autocomplete="off" placeholder="Choose a date">
+            <input matInput [matDatepicker]="picker1" [(ngModel)]="appointmentDate" autocomplete="off"
+                placeholder="Choose a date">
             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1 color="primary"></mat-datepicker>
-          </mat-form-field>
-          
-        
-    
+        </mat-form-field>
 
         <label for="reason">Appointment Reason:</label>
         <textarea id="reason" [(ngModel)]="appointmentReason" placeholder="Enter reason for visit..."></textarea>
 
         <button (click)="scheduleAppointment()">Schedule Appointment</button>
+        <button (click)="isScheduling = false">Cancel</button>
     </div>
+</div>
 
-    <!-- Scheduled Appointments -->
-    <div class="appointment-list">
-        <h3>Scheduled Appointments</h3>
-        <ul>
-            <li *ngFor="let appointment of appointments">
-                🗓️ <strong>{{ appointment.date }}</strong> - <strong>{{ appointment.patientName }}</strong> (Doctor ID:
-                {{ appointment.doctorId }}) <br>
-                🏥 Reason: {{ appointment.reason }}
-            </li>
-        </ul>
-    </div>
+<div class="appointment-container" *ngIf="!isScheduling">
+
+    <ul *ngIf="appointments.length > 0">
+        <h3 class="section-subtitle">Scheduled Appointments</h3>
+        <li *ngFor="let appointment of appointments">
+             <strong>{{ appointment.date }}</strong> - <strong>{{ appointment.patientName }}</strong> (Doctor ID: {{
+            appointment.doctorId }}) <br>
+             Reason: {{ appointment.reason }}
+        </li>
+    </ul>
+    <p *ngIf="appointments.length === 0">No upcoming appointments.</p>
+
+    <!-- <button (click)="isScheduling = true">Schedule New Appointment</button> -->
 </div>

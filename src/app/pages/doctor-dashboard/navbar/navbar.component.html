@@ -7,7 +7,7 @@
     <li><a routerLink="/">Home</a></li> 
     <li *ngIf="!isLoggedIn"><a routerLink="/login">Login</a></li>  
     <li *ngIf="isLoggedIn"><a routerLink="/doctor/patients">Patients</a></li>
-    <li *ngIf="isLoggedIn"><a routerLink="/doctor/appointments">Appointments</a></li>
+    <li *ngIf="isLoggedIn"><a routerLink="/doctor/appointments" [queryParams]="{ schedule: 'true'}">Appointments</a></li>
     <li *ngIf="isLoggedIn"><a routerLink="/doctor/xrays">X-Ray Upload</a></li>
     <li *ngIf="isLoggedIn"><a (click)="logout()">Logout</a></li>
   </ul>  
