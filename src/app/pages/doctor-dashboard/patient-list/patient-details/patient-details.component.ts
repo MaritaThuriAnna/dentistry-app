@@ -1,50 +1,76 @@
 import { NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
+import { UserCrudService } from '../../../../services/user_crud.service';
 
 interface Patient {
-  id: number;
-  name: string;
-  age: number;
-  gender: string;
-  contact: { 
-    email: string; 
-    phone: string };
-  address: string;
-  medicalHistory: { 
+  userId: string;
+  surname: string;
+  forname: string;
+  email: string;
+  telNr: string;
+  role: string;
+  profilePictureUrl: string;
+  gender?: string;
+  address?: string;
+  medicalHistory?: { 
     allergies: string; 
     conditions: string[]; 
-    previousTreatments: string[] };
-  appointments: { 
+    previousTreatments: string[] 
+  };
+  appointments?: { 
     date: string; 
     type: string; 
-    status: string }[];
-  xrayRecords: { 
+    status: string 
+  }[];
+  xrayRecords?: { 
     image: string; 
-    analysis: string }[];
-  doctorNotes: string;
+    analysis: string 
+  }[];
+  doctorNotes?: string;
 }
 
 @Component({
   selector: 'app-patient-details',
-  imports: [RouterLink, NgFor, FormsModule],
+  imports: [RouterLink, NgFor, FormsModule, NgIf],
   standalone: true,
   templateUrl: './patient-details.component.html',
   styleUrl: './patient-details.component.css'
 })
-export class PatientDetailsComponent {
-  patientId!: number;
-  patient: Patient[] = [];
+export class PatientDetailsComponent implements OnInit {
+  patientId!: string;
+  patient: Patient = {
+    userId: '',
+    surname: '',
+    forname: '',
+    email: '',
+    telNr: '',
+    role: '',
+    profilePictureUrl: '',
+    gender: '',
+    address: '',
+    medicalHistory: {
+      allergies: '',
+      conditions: [],
+      previousTreatments: []
+    },
+    appointments: [],
+    xrayRecords: [],
+    doctorNotes: ''
+  };
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private userService: UserCrudService) {}
 
   ngOnInit() {
-    this.patientId = Number(this.route.snapshot.paramMap.get('id'));
+    this.patientId = this.route.snapshot.paramMap.get('id')!;
 
-    this.http.get<Patient[]>('patient-data.json').subscribe((data) => {
-      this.patient = data;
+    this.userService.getUserById(this.patientId).subscribe((data) => {
+      this.patient = { 
+        ...this.patient, // ✅ Keeps default values for missing fields
+        ...data 
+      };
     });
   }
 }
