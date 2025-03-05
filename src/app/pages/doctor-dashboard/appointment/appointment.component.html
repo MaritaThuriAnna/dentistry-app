@@ -6,7 +6,7 @@
     <div class="appointment-form">
         <label for="patient">Select Patient:</label>
         <select id="patient" [(ngModel)]="selectedPatientId">
-            <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.name }}</option>
+            <option *ngFor="let patient of patients" [value]="patient.userId">{{patient.forname}} {{ patient.surname }} </option>
         </select>
 
         <label for="date">Select Date:</label>

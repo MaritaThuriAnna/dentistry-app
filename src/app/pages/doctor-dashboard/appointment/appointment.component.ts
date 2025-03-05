@@ -1,22 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatNativeDateModule, provideNativeDateAdapter} from '@angular/material/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { AuthService } from '../../../services/auth.service';
 
 interface Patient {
-  id: number;
-  name: string;
+  userId: string;
+  surname: string;
+  forname: string;
+  role: string;
 }
 
 interface Appointment {
   id: number;
-  patientId: number;
+  patientId: string;
   patientName: string;
-  doctorId: number;
+  doctorId: string;
   date: string;
   reason: string;
 }
@@ -37,19 +40,20 @@ interface Appointment {
 })
 export class AppointmentComponent {
   patients: Patient[] = [];
-  selectedPatientId: number | null = null;
+  selectedPatientId: string | null = null;
   appointmentDate: Date | null = null;
   appointmentReason: string = '';
   appointments: Appointment[] = [];
-  doctorId: number = 1;  // assuming doctor ID is 1 for now
+  doctorId: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   ngOnInit() {
-    // Load patient data from JSON
-    this.http.get<Patient[]>('patient-data.json').subscribe((data) => {
-      this.patients = data;
+    this.http.get<Patient[]>('http://localhost:8082/User/ReadAll').subscribe((data) => {
+      this.patients = data.filter(user => user.role === 'PATIENT');
     });
+
+    this.doctorId = this.authService.getLoggedInUserId();
   }
 
   scheduleAppointment() {
@@ -58,19 +62,22 @@ export class AppointmentComponent {
       return;
     }
 
-    const selectedPatient = this.patients.find(p => p.id === this.selectedPatientId);
+    const selectedPatient = this.patients.find(p => p.userId === this.selectedPatientId);
+
     if (!selectedPatient) return;
 
     const newAppointment: Appointment = {
       id: this.appointments.length + 1,
       patientId: this.selectedPatientId,
-      patientName: selectedPatient.name,
+      patientName: `${selectedPatient.forname} ${selectedPatient.surname}`,
       doctorId: this.doctorId,
       date: this.appointmentDate.toISOString().split('T')[0],
       reason: this.appointmentReason
     };
 
-    this.appointments.push(newAppointment);
+    // TODO: Send the new appointment to the backend
+    console.log("New appointment:", newAppointment);
+    
     this.clearForm();
   }
 
